@@ -32,7 +32,7 @@ pnpm dev
   - [x] It should not be possible to create a link with a malformed shortened URL
   - [x] It should not be possible to create a link with an already existing shortened URL
 - [ ] It should be possible to delete a link
-- [ ] It should be possible to get the original URL through a shortened URL
+- [x] It should be possible to get the original URL through a shortened URL
 - [ ] It should be possible to list all registered URLs
 - [ ] It should be possible to increment the access count of a link
 - [ ] It should be possible to export created links to CSV

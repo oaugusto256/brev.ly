@@ -1,3 +1,4 @@
 export * from "./invalid-short-code";
 export * from "./invalid-url";
+export * from "./link-not-found";
 export * from "./short-code-already-exists";

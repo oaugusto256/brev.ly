@@ -9,6 +9,7 @@ import {
 	validatorCompiler,
 } from "fastify-type-provider-zod";
 import { createLinkRoute } from "./routes/create-link";
+import { redirectLinkRoute } from "./routes/redirect-link";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -38,6 +39,7 @@ app.register(fastifyCors, {
 
 // Routes
 app.register(createLinkRoute);
+app.register(redirectLinkRoute);
 
 // Health check
 app.get("/health", async () => {
