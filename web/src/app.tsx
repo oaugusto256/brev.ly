@@ -1,9 +1,14 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { HomePage, RedirectPage, NotFoundPage } from './pages'
+
 export function App() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <h1 className="text-3xl font-bold text-center py-8">
-        Brev.ly - URL Shortener
-      </h1>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/:shortCode" element={<RedirectPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
