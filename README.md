@@ -76,7 +76,20 @@ The application will be running at `http://localhost:3000`
 ```env
 PORT=3333
 BASE_URL=http://localhost:3333
+
+# Database
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/brevly
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=brevly
+POSTGRES_PORT=5432
+
+# Cloudflare R2 (optional - for CSV export to cloud)
+CLOUDFLARE_ACCOUNT_ID=
+CLOUDFLARE_ACCESS_KEY_ID=
+CLOUDFLARE_SECRET_ACCESS_KEY=
+CLOUDFLARE_BUCKET=brevly
+CLOUDFLARE_PUBLIC_URL=
 ```
 
 **Web (.env)**
