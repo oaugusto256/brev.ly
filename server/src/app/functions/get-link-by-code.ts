@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { LinkNotFoundError } from "../../core/errors";
 import { db } from "../../infra/db";
 import { urls } from "../../infra/db/schemas";
@@ -20,17 +20,20 @@ export async function getLinkByCode(
 ): Promise<GetLinkByCodeOutput> {
 	const { shortCode } = input;
 
+	// Increment access count and return the updated link in a single query
 	const [link] = await db
-		.select({
+		.update(urls)
+		.set({
+			accessCount: sql`${urls.accessCount} + 1`,
+		})
+		.where(eq(urls.shortCode, shortCode))
+		.returning({
 			id: urls.id,
 			originalUrl: urls.originalUrl,
 			shortCode: urls.shortCode,
 			accessCount: urls.accessCount,
 			createdAt: urls.createdAt,
-		})
-		.from(urls)
-		.where(eq(urls.shortCode, shortCode))
-		.limit(1);
+		});
 
 	if (!link) {
 		throw new LinkNotFoundError(shortCode);

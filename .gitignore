@@ -32,3 +32,6 @@ coverage/
 # Misc
 *.tsbuildinfo
 .turbo/
+
+# Uploads (local development)
+uploads/
