@@ -6,23 +6,36 @@ interface LinkItemProps {
 	link: Link;
 	onCopy: (link: Link) => void;
 	onDelete: (link: Link) => void;
+	onLinkClick: (link: Link) => void;
 }
 
-export function LinkItem({ link, onCopy, onDelete }: LinkItemProps) {
+export function LinkItem({
+	link,
+	onCopy,
+	onDelete,
+	onLinkClick,
+}: LinkItemProps) {
 	const shortUrl = `brev.ly/${link.shortCode}`;
+
+	const handleLinkClick = () => {
+		onLinkClick(link);
+	};
 
 	return (
 		<div className="flex items-center justify-between py-3 px-4 border-b border-gray-200 last:border-b-0 hover:bg-gray-100/50 transition-colors">
 			<div className="flex-1 min-w-0 mr-4">
 				<a
-					href={`${import.meta.env.VITE_FRONTEND_URL}/${link.shortCode}`}
+					href={`${import.meta.env.VITE_FRONTEND_URL || window.location.origin}/${link.shortCode}`}
 					target="_blank"
 					rel="noopener noreferrer"
-					className="block text-md font-semibold text-blue-base hover:underline truncate"
+					onClick={handleLinkClick}
+					className="block text-md font-semibold text-blue-base hover:underline truncate max-w-[400px]"
 				>
 					{shortUrl}
 				</a>
-				<p className="text-sm text-gray-400 truncate">{link.originalUrl}</p>
+				<p className="text-sm text-gray-400 truncate max-w-[400px]">
+					{link.originalUrl}
+				</p>
 			</div>
 
 			<div className="flex items-center gap-1">

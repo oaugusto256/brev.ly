@@ -9,6 +9,7 @@ interface LinksListProps {
 	isLoading?: boolean;
 	onCopy: (link: Link) => void;
 	onDelete: (link: Link) => void;
+	onLinkClick: (link: Link) => void;
 	onExportCsv: () => void;
 	isExporting?: boolean;
 }
@@ -18,6 +19,7 @@ export function LinksList({
 	isLoading,
 	onCopy,
 	onDelete,
+	onLinkClick,
 	onExportCsv,
 	isExporting,
 }: LinksListProps) {
@@ -51,6 +53,7 @@ export function LinksList({
 								link={link}
 								onCopy={onCopy}
 								onDelete={onDelete}
+								onLinkClick={onLinkClick}
 							/>
 						))}
 					</div>

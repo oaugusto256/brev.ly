@@ -57,9 +57,8 @@ The application will be running at `http://localhost:5173`
   - [x] It should not be possible to create a link with a malformed shortened URL
   - [x] It should not be possible to create a link with an already existing shortened URL
 - [x] It should be possible to delete a link
-- [ ] It should be possible to get the original URL through a shortened URL
+- [x] It should be possible to get the original URL through a shortened URL
 - [x] It should be possible to list all registered URLs
-- [ ] It should be possible to increment the access count of a link
 - [x] It should be possible to download a CSV with the link report
 
 

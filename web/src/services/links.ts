@@ -6,6 +6,13 @@ export async function getLinks(): Promise<Link[]> {
 	return response.data;
 }
 
+export async function getLinkByShortCode(
+	shortCode: string,
+): Promise<{ originalUrl: string }> {
+	const response = await api.get<{ originalUrl: string }>(`/${shortCode}`);
+	return response.data;
+}
+
 export async function createLink(data: CreateLinkInput): Promise<Link> {
 	const response = await api.post<{ link: Link }>("/links", data);
 	return response.data.link;

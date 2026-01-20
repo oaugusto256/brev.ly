@@ -26,10 +26,15 @@ export function LinkForm({ onSubmit, isLoading }: LinkFormProps) {
 		register,
 		handleSubmit,
 		reset,
+		watch,
 		formState: { errors },
 	} = useForm<CreateLinkFormData>({
 		resolver: zodResolver(createLinkSchema),
 	});
+
+	const originalUrl = watch("originalUrl");
+	const shortCode = watch("shortCode");
+	const isFormEmpty = !originalUrl || !shortCode;
 
 	const handleFormSubmit = async (data: CreateLinkFormData) => {
 		await onSubmit(data);
@@ -37,7 +42,7 @@ export function LinkForm({ onSubmit, isLoading }: LinkFormProps) {
 	};
 
 	return (
-		<Card className="w-full max-w-[380px]">
+		<Card className="w-full lg:max-w-[380px]">
 			<h2 className="text-lg font-bold text-gray-600 mb-6">Novo link</h2>
 
 			<form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
@@ -56,7 +61,12 @@ export function LinkForm({ onSubmit, isLoading }: LinkFormProps) {
 					{...register("shortCode")}
 				/>
 
-				<Button type="submit" isLoading={isLoading} className="mt-2">
+				<Button
+					type="submit"
+					isLoading={isLoading}
+					disabled={isFormEmpty}
+					className="mt-2"
+				>
 					Salvar link
 				</Button>
 			</form>
