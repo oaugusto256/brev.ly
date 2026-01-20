@@ -12,19 +12,104 @@ Backend API for the Brev.ly URL shortener application.
 
 ## Getting Started
 
+### Prerequisites
+
+- Node.js 20+
+- pnpm
+- Docker (for database)
+
+### Setup
+
+1. **Install dependencies**
+   ```bash
+   pnpm install
+   ```
+
+2. **Configure environment variables**
+
+   Create a `.env` file in the server folder (see [Environment Variables](#environment-variables) for all options):
+   ```env
+   PORT=3333
+   BASE_URL=http://localhost:3333
+
+   DATABASE_URL=postgresql://postgres:postgres@localhost:5432/brevly
+   POSTGRES_USER=postgres
+   POSTGRES_PASSWORD=postgres
+   POSTGRES_DB=brevly
+   POSTGRES_PORT=5432
+   ```
+
+3. **Start the database**
+   ```bash
+   docker compose -f devops/docker/docker-compose.dev.yml up -d
+   ```
+
+4. **Run migrations**
+   ```bash
+   pnpm db:migrate
+   ```
+
+5. **Start the server**
+   ```bash
+   pnpm dev
+   ```
+
+The server will be running at `http://localhost:3333`
+
+## API Documentation
+
+This API is documented using **OpenAPI 3.0** specification with **Swagger UI**.
+
+📚 **Interactive docs available at:** `http://localhost:3333/docs`
+
+### Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/links` | Create a new shortened link |
+| `GET` | `/links` | List all links |
+| `GET` | `/:shortCode` | Get original URL by short code (increments access count) |
+| `DELETE` | `/links/:id` | Delete a link |
+| `POST` | `/links/export` | Export all links to CSV |
+| `GET` | `/health` | Health check |
+
+### Create Link
+
 ```bash
-# Install dependencies
-pnpm install
+POST /links
+Content-Type: application/json
 
-# Start development database
-cd devops/scripts && ./start-dev-db.sh
-
-# Run migrations
-pnpm db:migrate
-
-# Start development server
-pnpm dev
+{
+  "originalUrl": "https://example.com",
+  "shortCode": "my-link"  # optional, auto-generated if not provided
+}
 ```
+
+### List Links
+
+```bash
+GET /links
+```
+
+### Get Link by Short Code
+
+```bash
+GET /:shortCode
+```
+
+### Delete Link
+
+```bash
+DELETE /links/:id
+```
+
+### Export to CSV
+
+```bash
+POST /links/export
+```
+
+Returns a URL to download the CSV file from cloud storage.
 
 ## Features and Rules
 
@@ -56,17 +141,26 @@ pnpm dev
 ## Environment Variables
 
 ```env
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/brevly
+# Server
 PORT=3333
 BASE_URL=http://localhost:3333
 
-# Cloudflare R2 (for CSV export)
-CLOUDFLARE_ACCOUNT_ID=your-account-id
-CLOUDFLARE_ACCESS_KEY_ID=your-access-key
-CLOUDFLARE_SECRET_ACCESS_KEY=your-secret-key
-CLOUDFLARE_BUCKET_NAME=brevly
-CLOUDFLARE_PUBLIC_URL=https://your-bucket.r2.dev
+# Database
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/brevly
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=brevly
+POSTGRES_PORT=5432
+
+# Cloudflare R2 (optional - for CSV export to cloud)
+CLOUDFLARE_ACCOUNT_ID=
+CLOUDFLARE_ACCESS_KEY_ID=
+CLOUDFLARE_SECRET_ACCESS_KEY=
+CLOUDFLARE_BUCKET=brevly
+CLOUDFLARE_PUBLIC_URL=
 ```
+
+> **Note:** If Cloudflare R2 is not configured, CSV exports will be saved locally to `./uploads/` and served via the API.
 
 ## License
 
